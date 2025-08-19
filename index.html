@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Application Development and Web Technologies Notes</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* Lighter slate background */
+        }
+        /* Style for the code blocks */
+        pre {
+            background-color: #1e293b; /* Dark slate background */
+            color: #e2e8f0; /* Light gray text */
+            padding: 1rem;
+            border-radius: 0.5rem; /* Rounded corners */
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            white-space: pre-wrap;   /* Wrap the code to prevent scrolling */
+            word-break: break-all;   /* Break long words if necessary */
+            font-size: 0.875rem;     /* Smaller font size */
+        }
+        /* Style for inline code snippets */
+        code:not(pre > code) {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+        /* Styling for the main content container */
+        .content-wrapper {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        /* Styling for section headings */
+        .section-heading {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        /* Styling for sub-headings */
+        .sub-heading {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        /* Styling for list items/pointers */
+        .content-wrapper ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .content-wrapper li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .content-wrapper li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: #2563eb; /* Blue-600 */
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-3xl font-bold text-slate-900">APP DEV 2 SHORT NOTES FOR ET</h1>
+            <p class="text-lg text-slate-600 mt-1">Comprehensive Pointwise Notes</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <div class="content-wrapper p-8 md:p-12">
+
+            <!-- JavaScript & Web Fundamentals -->
+            <section>
+                <h2 class="section-heading">JavaScript & Web Fundamentals</h2>
+                
+                <h3 class="sub-heading">JAMStack</h3>
+                <ul>
+                    <li>An architecture consisting of <strong>J</strong>avaScript, <strong>A</strong>PIs, and pre-rendered <strong>M</strong>arkup.</li>
+                    <li>Decouples the frontend (UI) from the backend (data/logic), allowing them to be developed and scaled independently.</li>
+                </ul>
+
+                <h3 class="sub-heading">Variable Declarations & Hoisting</h3>
+                <ul>
+                    <li><code>var</code>: Function-scoped. Declarations are hoisted to the top of their function and initialized with `undefined`.</li>
+                    <li><code>let</code>/<code>const</code>: Block-scoped (within `{}`). Declarations are hoisted but not initialized, creating a "Temporal Dead Zone" where they cannot be accessed before the declaration line.</li>
+                    <li><strong>Hoisting Example:</strong> Function declarations are fully hoisted (can be called before defined). Arrow functions assigned to variables follow the variable's hoisting rules.</li>
+                </ul>
+                <pre><code>hoistedFunction(); // Works
+// notHoistedFunction(); // TypeError: notHoistedFunction is not a function
+
+function hoistedFunction() {
+  console.log('I am hoisted!');
+}
+
+var notHoistedFunction = () => {
+  console.log('I am not fully hoisted.');
+};</code></pre>
+
+                <h3 class="sub-heading">Execution Context & `this` Keyword</h3>
+                <ul>
+                    <li><strong>Global Context:</strong> `this` refers to the global object (`window` in browsers).</li>
+                    <li><strong>Function Context (Regular):</strong> `this` is determined by how the function is called. If called as a method of an object (`obj.myMethod()`), `this` is the object. If called as a standalone function, `this` is the global object (or `undefined` in strict mode).</li>
+                    <li><strong>Function Context (Arrow):</strong> Arrow functions do not have their own `this` context. They inherit `this` from their parent (lexical) scope at the time they are defined.</li>
+                </ul>
+
+                <h3 class="sub-heading">Prototypes & Inheritance</h3>
+                <ul>
+                    <li>JavaScript uses prototype-based inheritance. Every object has a hidden `[[Prototype]]` link (accessible via `__proto__`) to another object.</li>
+                    <li>When accessing a property, the engine first checks the object itself. If not found, it checks its prototype, and so on, up the prototype chain.</li>
+                    <li>The `class` syntax is syntactic sugar over this prototype mechanism. `class Dog extends Animal` sets `Animal.prototype` as the prototype of `Dog.prototype`.</li>
+                </ul>
+            </section>
+
+            <hr class="my-8 border-slate-200">
+
+            <!-- Asynchronous JS -->
+            <section>
+                <h2 class="section-heading">Asynchronous JS</h2>
+
+                <h3 class="sub-heading">Promises</h3>
+                <ul>
+                    <li>An object representing the eventual completion (or failure) of an asynchronous operation.</li>
+                    <li>States: `pending`, `fulfilled` (resolved), or `rejected`.</li>
+                    <li>Handled with `.then()` for success, `.catch()` for errors, and `.finally()` for cleanup code that runs regardless of outcome.</li>
+                </ul>
+                
+                <h3 class="sub-heading">Promise Chaining Example</h3>
+                <ul>
+                    <li>The value returned from a `.then()` block is passed as an argument to the next `.then()`.</li>
+                    <li>If a promise is rejected or an error is thrown, the chain jumps to the next `.catch()` block.</li>
+                    <li>A `.catch()` block can "handle" an error and return a normal value, allowing the chain to continue into subsequent `.then()` blocks.</li>
+                </ul>
+                <pre><code>new Promise((resolve, reject) => {
+  resolve(10);
+})
+.then(val => {
+  console.log("Step 1:", val); // Logs: Step 1: 10
+  throw new Error("Something went wrong");
+  return val * 2; // This line is never reached
+})
+.then(val => {
+  console.log("Step 2:", val); // This block is skipped
+})
+.catch(err => {
+  console.log("Caught:", err.message); // Logs: Caught: Something went wrong
+  return 50; // Return a new value to continue the chain
+})
+.then(val => {
+  console.log("Step 3:", val); // Logs: Step 3: 50
+});</code></pre>
+                
+                <h3 class="sub-heading">`async/await`</h3>
+                <ul>
+                    <li>Provides a cleaner, more synchronous-looking syntax for working with promises.</li>
+                    <li>The `await` keyword can only be used inside an `async` function. It pauses the function execution until the promise settles and returns its result.</li>
+                </ul>
+            </section>
+
+            <hr class="my-8 border-slate-200">
+
+            <!-- Vue.js -->
+            <section>
+                <h2 class="section-heading">Vue.js Concepts</h2>
+
+                <h3 class="sub-heading">Reactivity, Directives, and Data Binding</h3>
+                <ul>
+                    <li><strong>Reactivity:</strong> Vue automatically tracks dependencies and updates the DOM when data changes.</li>
+                    <li><strong>`v-bind` (or `:`):</strong> One-way data binding. Binds an element's attribute to a data property.</li>
+                    <li><strong>`v-model`:</strong> Two-way data binding, typically used on form inputs.</li>
+                </ul>
+
+                <h3 class="sub-heading">Components, Props, and Events</h3>
+                <ul>
+                    <li><strong>Props:</strong> A way to pass data from a parent component down to a child component.</li>
+                    <li><strong>Events (`$emit`):</strong> A way for a child component to send a message up to its parent component.</li>
+                </ul>
+
+                <h3 class="sub-heading">Vue Lifecycle Hooks</h3>
+                <ul>
+                    <li>Functions that are executed at specific stages of a component's lifecycle.</li>
+                    <li><strong>`created()`:</strong> Runs after the instance is created. Data is reactive, but the DOM has not been mounted. Good for fetching initial data.</li>
+                    <li><strong>`mounted()`:</strong> Runs after the component has been added to the DOM. Useful for DOM manipulations.</li>
+                </ul>
+
+                <h3 class="sub-heading">Vue Router</h3>
+                <ul>
+                    <li><strong>Dynamic Routes:</strong> Defined with a colon (e.g., `path: '/user/:id'`). The dynamic part is accessible in the component via `this.$route.params.id`.</li>
+                    <li><strong>Nested Routes:</strong> A route can have a `children` array of other routes. The parent route's component needs a `<router-view>` to render the child component.</li>
+                </ul>
+                <pre><code>// In router configuration
+const routes = [
+  { 
+    path: '/user/:id', 
+    component: User,
+    children: [
+      { path: 'profile', component: UserProfile }, // Renders inside User's <router-view>
+    ]
+  }
+]</code></pre>
+
+                <h3 class="sub-heading">Vuex: State Management</h3>
+                <ul>
+                    <li>Provides a centralized store for all components in an application.</li>
+                    <li><strong>State:</strong> The single source of truth (the data).</li>
+                    <li><strong>Mutations:</strong> The only way to change the state. They must be synchronous. Triggered with `store.commit('mutationName')`.</li>
+                    <li><strong>Actions:</strong> Used for asynchronous operations. They commit mutations instead of changing the state directly. Triggered with `store.dispatch('actionName')`.</li>
+                    <li><strong>Getters:</strong> Computed properties for the store. Used to derive state.</li>
+                </ul>
+            </section>
+
+            <hr class="my-8 border-slate-200">
+
+            <!-- Servers, Caching & Communication -->
+            <section>
+                <h2 class="section-heading">Servers, Caching & Communication</h2>
+
+                <h3 class="sub-heading">Communication Patterns</h3>
+                <ul>
+                    <li><strong>Short Polling:</strong> Client repeatedly asks the server for updates at a fixed interval. Inefficient.</li>
+                    <li><strong>Long Polling:</strong> Client asks the server for updates, and the server holds the connection open until it has an update to send.</li>
+                    <li><strong>Webhooks:</strong> Server-to-server communication. A server sends an HTTP POST request to a pre-configured URL on another server when an event occurs.</li>
+                    <li><strong>Server-Sent Events (SSE):</strong> A one-way, persistent connection from server to client over HTTP, allowing the server to push updates.</li>
+                    <li><strong>WebSockets:</strong> A two-way, full-duplex, persistent connection between client and server.</li>
+                </ul>
+                
+                <h3 class="sub-heading">Task Queues (Celery) & Message Brokers (Redis)</h3>
+                <ul>
+                    <li><strong>Task Queue:</strong> Offloads long-running tasks (like sending emails or processing data) to background "worker" processes, preventing the main application from blocking.</li>
+                    <li><strong>Message Broker:</strong> An intermediary that enables different services to communicate asynchronously. It decouples the sender (producer) from the receiver (consumer). Redis is often used as a fast, in-memory message broker.</li>
+                </ul>
+
+                <h3 class="sub-heading">Caching with Flask-Caching</h3>
+                <ul>
+                    <li><strong>`@cache.cached()`:</strong> Caches the entire response of a Flask view function. The cache key is typically based on the request URL. Different URLs for the same endpoint will result in separate cache entries.</li>
+                    <li><strong>`@cache.memoize()`:</strong> Caches the return value of any function, not just a view. The cache key is generated from the function's arguments. This is useful for caching the results of computationally expensive helper functions.</li>
+                </ul>
+                <pre><code># Caches the entire response for '/user/123'
+@app.route('/user/&lt;user_id&gt;')
+@cache.cached(timeout=60)
+def get_user_profile(user_id):
+    user = fetch_user_from_db(user_id)
+    return render_template('profile.html', user=user)
+
+# Caches the result of this specific calculation
+@cache.memoize(timeout=300)
+def calculate_complex_report(user_id):
+    # ... very slow calculation ...
+    return report_data</code></pre>
+            </section>
+
+            <hr class="my-8 border-slate-200">
+
+            <!-- Security -->
+            <section>
+                <h2 class="section-heading">Web Security Concepts</h2>
+                <h3 class="sub-heading">CORS (Cross-Origin Resource Sharing)</h3>
+                <ul>
+                    <li>A browser security mechanism that restricts HTTP requests initiated from scripts to a different origin (domain, protocol, or port) than the one that served the script.</li>
+                    <li>The server must include specific CORS headers (like `Access-Control-Allow-Origin: *`) to permit cross-origin requests.</li>
+                </ul>
+                <h3 class="sub-heading">CSRF (Cross-Site Request Forgery)</h3>
+                <ul>
+                    <li>An attack that tricks an authenticated user into submitting a malicious request to a web application they are logged into.</li>
+                    <li><strong>Mitigation:</strong> Use anti-CSRF tokens. The server sends a unique, unpredictable token with the form, which must be sent back with the request to be considered valid.</li>
+                </ul>
+                <h3 class="sub-heading">XSS (Cross-Site Scripting)</h3>
+                <ul>
+                    <li>An attack where malicious scripts are injected into otherwise trusted websites.</li>
+                    <li><strong>Mitigation:</strong> Always validate and sanitize user input. Escape user-provided content before rendering it in the HTML to prevent it from being executed as code.</li>
+                </ul>
+            </section>
+            
+            <hr class="my-8 border-slate-200">
+
+            <!-- Deeper Dive Section -->
+            <section>
+                <h2 class="section-heading">Deeper Dive: Key PYQ Concepts with Examples</h2>
+
+                <h3 class="sub-heading">`v-if` vs. `v-show`</h3>
+                <ul>
+                    <li><strong>`v-if`</strong> is "true" conditional rendering. It ensures that the element and its child components are destroyed and re-created during toggles. It has higher toggle costs.</li>
+                    <li><strong>`v-show`</strong> always keeps the element in the DOM and toggles its visibility using the CSS `display` property. It has higher initial render costs but cheaper toggle costs.</li>
+                </ul>
+
+                <h3 class="sub-heading">REST API Idempotency</h3>
+                <ul>
+                    <li>An operation is <strong>idempotent</strong> if making the same request multiple times produces the same result as making it once.</li>
+                    <li><strong>`GET`, `PUT`, `DELETE`</strong> are idempotent. Getting a resource, replacing a resource, or deleting a resource multiple times has the same effect as doing it once.</li>
+                    <li><strong>`POST`</strong> is not idempotent. Making multiple `POST` requests will create multiple new resources.</li>
+                </ul>
+
+                <h3 class="sub-heading">Vue Lifecycle Hook Execution Order</h3>
+                <ul>
+                    <li>The hooks fire in a predictable sequence. For example, `beforeCreate` -> `created` -> `beforeMount` -> `mounted`.</li>
+                    <li>In `beforeCreate`, you cannot access `data` or `methods`. In `created`, you can access `data` but not the DOM element (`this.$el`). In `mounted`, you can access both.</li>
+                </ul>
+                <pre><code>new Vue({
+  el: '#app',
+  data: { message: 'Hello' },
+  beforeCreate() {
+    console.log('beforeCreate:', this.message); // undefined
+  },
+  created() {
+    console.log('created:', this.message); // 'Hello'
+    console.log('created $el:', this.$el); // undefined
+  },
+  mounted() {
+    console.log('mounted $el:', this.$el); // The actual DOM element
+  }
+})</code></pre>
+
+                <h3 class="sub-heading">`this` Context with `.call()`, `.bind()`, and `.apply()`</h3>
+                <ul>
+                    <li>These methods allow you to explicitly set the `this` value for a function call, which is crucial when a function needs to run in the context of a specific object.</li>
+                    <li><strong>`.call(thisContext, arg1, arg2)`:</strong> Executes the function immediately with a given `this` context and arguments provided individually.</li>
+                    <li><strong>`.apply(thisContext, [arg1, arg2])`:</strong> Same as `.call()`, but arguments are provided as an array.</li>
+                    <li><strong>`.bind(thisContext)`:</strong> Creates a *new* function that, when called, will have its `this` context permanently set to the provided value. It does not execute the function immediately.</li>
+                </ul>
+
+                <h3 class="sub-heading">Message Broker Architecture</h3>
+                <ul>
+                    <li>In a system with many services (N), direct point-to-point communication requires up to N*(N-1)/2 connections, which is complex to manage (O(N²)).</li>
+                    <li>A central message broker simplifies this. Each service only needs one connection to the broker. The number of connections grows linearly with the number of services (O(N)), making the system more scalable and maintainable.</li>
+                </ul>
+
+                <h3 class="sub-heading">Vue Slots and Data Scope</h3>
+                <ul>
+                    <li>Content passed into a component's slot is compiled in the **parent's scope**, not the child's. This means the data used inside the `&lt;template v-slot="..."&gt;` tag must exist on the parent component.</li>
+                </ul>
+                 <pre><code>&lt;!-- Parent Component --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;ChildComponent&gt;
+      &lt;!-- This 'parentMessage' comes from the parent's data --&gt;
+      &lt;p&gt;{{ parentMessage }}&lt;/p&gt; 
+    &lt;/ChildComponent&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+  data() {
+    return { parentMessage: 'Hello from Parent!' };
+  }
+}
+&lt;/script&gt;</code></pre>
+            </section>
+
+            <hr class="my-8 border-slate-200">
+
+            <!-- Final Check Section -->
+            <section>
+                <h2 class="section-heading">Final Check: Crucial Exam Pointers</h2>
+
+                <h3 class="sub-heading">Web Storage API (`localStorage` vs. `sessionStorage`)</h3>
+                <ul>
+                    <li><strong>`localStorage`</strong>: Stores data with no expiration date. The data will not be deleted when the browser is closed and will be available the next day, week, or year.</li>
+                    <li><strong>`sessionStorage`</strong>: Stores data for one session only. The data is deleted when the user closes the specific browser tab.</li>
+                    <li><strong>Common Methods:</strong> Both objects share the same methods: `setItem(key, value)`, `getItem(key)`, `removeItem(key)`, and `clear()`. Remember that values are stored as strings.</li>
+                </ul>
+
+                <h3 class="sub-heading">Vue Dynamic Class Binding</h3>
+                <ul>
+                    <li>You can pass an object to `:class` to dynamically toggle classes. The class name is the key, and a boolean is the value.</li>
+                    <li>You can also pass an array to apply a list of classes. This can be mixed with the object syntax for more complex logic.</li>
+                </ul>
+                <pre><code>&lt;!-- Object Syntax --&gt;
+&lt;div :class="{ 'active': isActive, 'text-danger': hasError }"&gt;&lt;/div&gt;
+
+&lt;!-- Array Syntax --&gt;
+&lt;div :class="[isActive ? 'active-class' : '', errorClass]"&gt;&lt;/div&gt;
+
+&lt;!-- Mixed Syntax --&gt;
+&lt;div :class="[{ 'active': isActive }, errorClass]"&gt;&lt;/div&gt;
+</code></pre>
+
+                <h3 class="sub-heading">JavaScript Closures</h3>
+                <ul>
+                    <li>A closure is a function that has access to the variables in its outer (enclosing) function's scope chain, even after the outer function has returned.</li>
+                    <li>This is why in the `setTimeout` loop example with `var`, all callbacks see the final value of `i`. With `let`, each iteration gets its own scope, creating a closure over that specific `i`.</li>
+                </ul>
+                <pre><code>function createCounter() {
+  let count = 0;
+  return function() { // This inner function is a closure
+    count++;
+    return count;
+  };
+}
+
+const counter1 = createCounter();
+console.log(counter1()); // 1
+console.log(counter1()); // 2 (It remembers the 'count' variable)
+</code></pre>
+
+                <h3 class="sub-heading">Event Propagation: Bubbling vs. Capturing</h3>
+                <ul>
+                    <li>When an event occurs on an element, it happens in two phases.</li>
+                    <li><strong>Capturing Phase:</strong> The event travels from the outermost ancestor (the `window`) down to the target element.</li>
+                    <li><strong>Bubbling Phase (Default):</strong> The event then "bubbles" up from the target element back to the `window`.</li>
+                    <li>You can listen for an event in the capturing phase by passing `{ capture: true }` or `true` as the third argument to `addEventListener`. By default, listeners are attached to the bubbling phase.</li>
+                </ul>
+                
+                <h3 class="sub-heading">Additional PYQ Concepts</h3>
+                <ul>
+                    <li><strong>Email Protocols:</strong> Remember the difference: <strong>SMTP</strong> (Simple Mail Transfer Protocol) is for **sending** emails. <strong>IMAP</strong> (Internet Message Access Protocol) is for **retrieving** emails from a server.</li>
+                    <li><strong>Celery Task Design for Parallelism:</strong> For tasks that can be broken down (like sending 1000 emails), it is far more efficient to create many small, independent tasks (e.g., 1000 tasks, one for each email) than one large task that loops internally. This allows Celery's workers to process the tasks in parallel, significantly reducing the total execution time.</li>
+                    <li><strong>Reverse Proxy Roles:</strong> A reverse proxy sits in front of web servers and forwards client requests. Its key roles include: <strong>Load Balancing</strong> (distributing traffic), <strong>Caching</strong> (storing common responses), and <strong>SSL Termination</strong> (handling HTTPS encryption/decryption).</li>
+                    <li><strong>Pub/Sub (Publish/Subscribe) Pattern:</strong> A messaging pattern where senders (publishers) do not send messages directly to specific receivers (subscribers). Instead, they publish messages to channels or "topics," and any subscribers to that topic will receive the message. This decouples the components of a system.</li>
+                </ul>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <p>&copy; 2024 Modern Web Dev Notes. All points covered.</p>
+            <p class="mt-2 text-slate-400">BY ~KarTiK🍁</p>
+        </div>
+    </footer>
+
+</body>
+</html>
