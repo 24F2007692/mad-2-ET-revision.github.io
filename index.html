@@ -77,6 +77,32 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+        /* Table styles */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #334155;
+            font-weight: 600;
+        }
+        td code {
+            background-color: #475569;
+            color: #e2e8f0;
+        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -275,13 +301,44 @@ const routes = [
                 </ul>
 
                 <h3 class="sub-heading">Caching with Flask-Caching Explained</h3>
-                <ul>
-                    <li><strong>Caching Decorator (<code>@cache.cached</code>):</strong> The golden rule is "Run once, serve many." The decorator's job is to prevent a function from re-running if the inputs are the same. Think of it as an automatic gatekeeper that intercepts the request, checks for a saved answer, and only runs the slow function if no saved answer exists.</li>
-                    <li><strong>Cache Hit vs. Cache Miss:</strong> A <strong>Cache Hit</strong> is ⚡️ fast; the answer is in the cache, and the expensive function is skipped. A <strong>Cache Miss</strong> is 🐢 slow; the answer is not in the cache, and the expensive function must run. The goal is to maximize cache hits.</li>
-                    <li><strong>Cache Key:</strong> The key is the "question." The cache stores answers to specific questions (e.g., the URL and its parameters). If the question changes even slightly, it's a new key. For example, <code>GET /users/1</code> and <code>GET /users/2</code> are different keys and have their own separate cache entries.</li>
-                    <li><strong>Cache Timeout:</strong> This is the "use-by" date for your cached data. After it expires, the data is stale and must be fetched again. Local timeouts (<code>@cache.cached(timeout=...)</code>) always win over global defaults.</li>
-                    <li><strong>Simulating Latency (<code>time.sleep</code>):</strong> This is a placeholder for any real-world slow operation, such as a complex database query, a call to a slow third-party API, generating a large file, or performing a heavy calculation.</li>
-                </ul>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th><code>@cache.cached</code></th>
+                                <th><code>@cache.memoize</code></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Use case</td>
+                                <td>Flask route response cache</td>
+                                <td>Any function result cache</td>
+                            </tr>
+                            <tr>
+                                <td>What is cached</td>
+                                <td>Full HTTP response</td>
+                                <td>Function return value</td>
+                            </tr>
+                             <tr>
+                                <td>Arguments</td>
+                                <td>Ignores function args</td>
+                                <td>Considers function args</td>
+                            </tr>
+                             <tr>
+                                <td>Best for</td>
+                                <td>Webpages / API responses</td>
+                                <td>Heavy calculations / DB queries</td>
+                            </tr>
+                             <tr>
+                                <td>Key</td>
+                                <td>Based on request path + params</td>
+                                <td>Based on function name + args</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <h3 class="sub-heading">Google Lighthouse Performance Metrics</h3>
                 <ul>
