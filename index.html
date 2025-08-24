@@ -301,6 +301,13 @@ const routes = [
                 </ul>
 
                 <h3 class="sub-heading">Caching with Flask-Caching Explained</h3>
+                <ul>
+                    <li><strong>Caching Decorator (<code>@cache.cached</code>):</strong> The golden rule is "Run once, serve many." The decorator's job is to prevent a function from re-running if the inputs are the same. Think of it as an automatic gatekeeper that intercepts the request, checks for a saved answer, and only runs the slow function if no saved answer exists.</li>
+                    <li><strong>Cache Hit vs. Cache Miss:</strong> A <strong>Cache Hit</strong> is ⚡️ fast; the answer is in the cache, and the expensive function is skipped. A <strong>Cache Miss</strong> is 🐢 slow; the answer is not in the cache, and the expensive function must run. The goal is to maximize cache hits.</li>
+                    <li><strong>Cache Key:</strong> The key is the "question." The cache stores answers to specific questions (e.g., the URL and its parameters). If the question changes even slightly, it's a new key. For example, <code>GET /users/1</code> and <code>GET /users/2</code> are different keys and have their own separate cache entries.</li>
+                    <li><strong>Cache Timeout:</strong> This is the "use-by" date for your cached data. After it expires, the data is stale and must be fetched again. Local timeouts (<code>@cache.cached(timeout=...)</code>) always win over global defaults.</li>
+                    <li><strong>Simulating Latency (<code>time.sleep</code>):</strong> This is a placeholder for any real-world slow operation, such as a complex database query, a call to a slow third-party API, generating a large file, or performing a heavy calculation.</li>
+                </ul>
                 <div class="table-wrapper">
                     <table>
                         <thead>
