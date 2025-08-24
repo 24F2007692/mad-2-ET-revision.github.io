@@ -25,9 +25,9 @@
             font-family: 'Courier New', Courier, monospace;
             margin-top: 0.5rem;
             margin-bottom: 1rem;
-            white-space: pre-wrap;   /* Wrap the code to prevent scrolling */
-            word-break: break-all;   /* Break long words if necessary */
-            font-size: 0.875rem;     /* Smaller font size */
+            white-space: pre-wrap;    /* Wrap the code to prevent scrolling */
+            word-break: break-all;    /* Break long words if necessary */
+            font-size: 0.875rem;      /* Smaller font size */
         }
         /* Style for inline code snippets */
         code:not(pre > code) {
@@ -132,6 +132,13 @@ var notHoistedFunction = () => {
                     <li>JavaScript uses prototype-based inheritance. Every object has a hidden `[[Prototype]]` link (accessible via `__proto__`) to another object.</li>
                     <li>When accessing a property, the engine first checks the object itself. If not found, it checks its prototype, and so on, up the prototype chain.</li>
                     <li>The `class` syntax is syntactic sugar over this prototype mechanism. `class Dog extends Animal` sets `Animal.prototype` as the prototype of `Dog.prototype`.</li>
+                    <li><strong><code>delete</code> Only Affects Own Properties 🗑️:</strong> The <code>delete</code> operator can only remove properties that exist directly on an object. It cannot reach up the prototype chain to remove an inherited property.</li>
+                </ul>
+                
+                <h3 class="sub-heading">Functions as Objects</h3>
+                <ul>
+                    <li>In JavaScript, functions are first-class objects. This means they can be assigned to variables, passed as arguments, and returned from other functions.</li>
+                    <li>The <code>typeof</code> operator, when used on a function, will always return <code>"function"</code>, not <code>"object"</code>, to distinguish them from regular objects.</li>
                 </ul>
             </section>
 
@@ -145,6 +152,7 @@ var notHoistedFunction = () => {
                 <ul>
                     <li>An object representing the eventual completion (or failure) of an asynchronous operation.</li>
                     <li>States: `pending`, `fulfilled` (resolved), or `rejected`.</li>
+                    <li>A promise can only be resolved or rejected once. The first one to be called determines the promise's final state.</li>
                     <li>Handled with `.then()` for success, `.catch()` for errors, and `.finally()` for cleanup code that runs regardless of outcome.</li>
                 </ul>
                 
@@ -178,6 +186,12 @@ var notHoistedFunction = () => {
                     <li>Provides a cleaner, more synchronous-looking syntax for working with promises.</li>
                     <li>The `await` keyword can only be used inside an `async` function. It pauses the function execution until the promise settles and returns its result.</li>
                 </ul>
+
+                <h3 class="sub-heading">Event Loop Priority</h3>
+                <ul>
+                    <li><strong>Execution Order:</strong> Synchronous Code → Microtasks → Macrotasks.</li>
+                    <li><strong>Microtasks</strong> (e.g., Promises, <code>queueMicrotask</code>) always execute before <strong>Macrotasks</strong> (e.g., <code>setTimeout</code>, <code>setInterval</code>, I/O).</li>
+                </ul>
             </section>
 
             <hr class="my-8 border-slate-200">
@@ -204,6 +218,8 @@ var notHoistedFunction = () => {
                     <li>Functions that are executed at specific stages of a component's lifecycle.</li>
                     <li><strong>`created()`:</strong> Runs after the instance is created. Data is reactive, but the DOM has not been mounted. Good for fetching initial data.</li>
                     <li><strong>`mounted()`:</strong> Runs after the component has been added to the DOM. Useful for DOM manipulations.</li>
+                    <li><strong>`beforeDestroy()`:</strong> Called right before a Vue instance is destroyed. Good for cleanup tasks like removing event listeners.</li>
+                    <li><strong>`destroyed()`:</strong> Called after a Vue instance has been destroyed. All directives are unbound and event listeners are removed.</li>
                 </ul>
 
                 <h3 class="sub-heading">Vue Router</h3>
@@ -226,8 +242,8 @@ const routes = [
                 <ul>
                     <li>Provides a centralized store for all components in an application.</li>
                     <li><strong>State:</strong> The single source of truth (the data).</li>
-                    <li><strong>Mutations:</strong> The only way to change the state. They must be synchronous. Triggered with `store.commit('mutationName')`.</li>
-                    <li><strong>Actions:</strong> Used for asynchronous operations. They commit mutations instead of changing the state directly. Triggered with `store.dispatch('actionName')`.</li>
+                    <li><strong>Mutations:</strong> The only way to change the state. They must be synchronous to ensure state changes are predictable and trackable. Triggered with `store.commit('mutationName')`.</li>
+                    <li><strong>Actions:</strong> Used for asynchronous operations like API calls (<code>fetch</code>), <code>setTimeout</code>, or Promises. They commit mutations instead of changing the state directly. Triggered with `store.dispatch('actionName')`.</li>
                     <li><strong>Getters:</strong> Computed properties for the store. Used to derive state.</li>
                 </ul>
             </section>
@@ -242,7 +258,7 @@ const routes = [
                 <ul>
                     <li><strong>Short Polling:</strong> Client repeatedly asks the server for updates at a fixed interval. Inefficient.</li>
                     <li><strong>Long Polling:</strong> Client asks the server for updates, and the server holds the connection open until it has an update to send.</li>
-                    <li><strong>Webhooks:</strong> Server-to-server communication. A server sends an HTTP POST request to a pre-configured URL on another server when an event occurs.</li>
+                    <li><strong>Webhooks:</strong> Server-to-server communication. A server sends an HTTP <strong>POST</strong> request to a pre-configured URL on another server when an event occurs.</li>
                     <li><strong>Server-Sent Events (SSE):</strong> A one-way, persistent connection from server to client over HTTP, allowing the server to push updates.</li>
                     <li><strong>WebSockets:</strong> A two-way, full-duplex, persistent connection between client and server.</li>
                 </ul>
@@ -253,23 +269,29 @@ const routes = [
                     <li><strong>Message Broker:</strong> An intermediary that enables different services to communicate asynchronously. It decouples the sender (producer) from the receiver (consumer). Redis is often used as a fast, in-memory message broker.</li>
                 </ul>
 
-                <h3 class="sub-heading">Caching with Flask-Caching</h3>
+                <h3 class="sub-heading">Flask Server Behavior</h3>
                 <ul>
-                    <li><strong>`@cache.cached()`:</strong> Caches the entire response of a Flask view function. The cache key is typically based on the request URL. Different URLs for the same endpoint will result in separate cache entries.</li>
-                    <li><strong>`@cache.memoize()`:</strong> Caches the return value of any function, not just a view. The cache key is generated from the function's arguments. This is useful for caching the results of computationally expensive helper functions.</li>
+                    <li><strong><code>threaded=False</code></strong>: This means the development server is single-threaded. It can only handle one request at a time. Subsequent requests must wait for the current one to finish.</li>
                 </ul>
-                <pre><code># Caches the entire response for '/user/123'
-@app.route('/user/&lt;user_id&gt;')
-@cache.cached(timeout=60)
-def get_user_profile(user_id):
-    user = fetch_user_from_db(user_id)
-    return render_template('profile.html', user=user)
 
-# Caches the result of this specific calculation
-@cache.memoize(timeout=300)
-def calculate_complex_report(user_id):
-    # ... very slow calculation ...
-    return report_data</code></pre>
+                <h3 class="sub-heading">Caching with Flask-Caching Explained</h3>
+                <ul>
+                    <li><strong>Caching Decorator (<code>@cache.cached</code>):</strong> The golden rule is "Run once, serve many." The decorator's job is to prevent a function from re-running if the inputs are the same. Think of it as an automatic gatekeeper that intercepts the request, checks for a saved answer, and only runs the slow function if no saved answer exists.</li>
+                    <li><strong>Cache Hit vs. Cache Miss:</strong> A <strong>Cache Hit</strong> is ⚡️ fast; the answer is in the cache, and the expensive function is skipped. A <strong>Cache Miss</strong> is 🐢 slow; the answer is not in the cache, and the expensive function must run. The goal is to maximize cache hits.</li>
+                    <li><strong>Cache Key:</strong> The key is the "question." The cache stores answers to specific questions (e.g., the URL and its parameters). If the question changes even slightly, it's a new key. For example, <code>GET /users/1</code> and <code>GET /users/2</code> are different keys and have their own separate cache entries.</li>
+                    <li><strong>Cache Timeout:</strong> This is the "use-by" date for your cached data. After it expires, the data is stale and must be fetched again. Local timeouts (<code>@cache.cached(timeout=...)</code>) always win over global defaults.</li>
+                    <li><strong>Simulating Latency (<code>time.sleep</code>):</strong> This is a placeholder for any real-world slow operation, such as a complex database query, a call to a slow third-party API, generating a large file, or performing a heavy calculation.</li>
+                </ul>
+
+                <h3 class="sub-heading">Google Lighthouse Performance Metrics</h3>
+                <ul>
+                    <li><strong>LCP (Largest Contentful Paint):</strong> When the biggest item appears. (Loading speed)</li>
+                    <li><strong>CLS (Cumulative Layout Shift):</strong> How much the page jumps around. (Visual stability)</li>
+                    <li><strong>TBT (Total Blocking Time):</strong> How long the page is "frozen" before you can interact. (Interactivity)</li>
+                    <li><strong>FCP (First Contentful Paint):</strong> When anything first appears. (Initial loading feedback)</li>
+                    <li><strong>SI (Speed Index):</strong> How quickly the screen fills up. (Perceived speed)</li>
+                    <li><strong>TTI (Time to Interactive):</strong> When the page is fully ready to use. (Full usability)</li>
+                </ul>
             </section>
 
             <hr class="my-8 border-slate-200">
@@ -291,6 +313,17 @@ def calculate_complex_report(user_id):
                 <ul>
                     <li>An attack where malicious scripts are injected into otherwise trusted websites.</li>
                     <li><strong>Mitigation:</strong> Always validate and sanitize user input. Escape user-provided content before rendering it in the HTML to prevent it from being executed as code.</li>
+                </ul>
+                <h3 class="sub-heading">JWT (JSON Web Token) Authentication</h3>
+                <ul>
+                    <li><strong>JWT:</strong> A token for authentication & identity sharing.</li>
+                    <li><strong><code>@jwt_required()</code>:</strong> Makes a valid JWT compulsory for a route.</li>
+                    <li><strong><code>get_jwt_identity()</code>:</strong> Extracts user info from the JWT.</li>
+                    <li><strong>401 Unauthorized:</strong> Error when the token is missing or invalid.</li>
+                    <li><strong>403 Forbidden:</strong> Error when the token is valid but the user lacks the required role/permission.</li>
+                    <li><strong>RBAC (Role-Based Access Control):</strong> Granting access based on role checks.</li>
+                    <li><strong>Fetch with JWT:</strong> Always send the <code>"Authorization": "Bearer &lt;token&gt;"</code> header.</li>
+                    <li><strong>Example Scenario:</strong> A student token gets a 403 Forbidden error for an admin route, an admin token gets a success response, and no token gets a 401 Unauthorized error.</li>
                 </ul>
             </section>
             
@@ -417,15 +450,14 @@ console.log(counter1()); // 2 (It remembers the 'count' variable)
 
                 <h3 class="sub-heading">Event Propagation: Bubbling vs. Capturing</h3>
                 <ul>
-                    <li>When an event occurs on an element, it happens in two phases.</li>
-                    <li><strong>Capturing Phase:</strong> The event travels from the outermost ancestor (the `window`) down to the target element.</li>
-                    <li><strong>Bubbling Phase (Default):</strong> The event then "bubbles" up from the target element back to the `window`.</li>
-                    <li>You can listen for an event in the capturing phase by passing `{ capture: true }` or `true` as the third argument to `addEventListener`. By default, listeners are attached to the bubbling phase.</li>
+                    <li><strong>Capturing Phase (Top-Down 🔽):</strong> The event starts from the root of the document (<code>window</code>) and travels down through all the ancestor elements to the element that was clicked (the target).</li>
+                    <li><strong>Bubbling Phase (Bottom-Up 🔼):</strong> After reaching the target, the event then travels back up through all the ancestor elements to the root. This is the default behavior for most event listeners.</li>
+                    <li>By setting <code>{ capture: true }</code> in <code>addEventListener</code>, you tell the browser to execute the listener during the Capturing Phase instead of the default Bubbling Phase.</li>
                 </ul>
                 
                 <h3 class="sub-heading">Additional PYQ Concepts</h3>
                 <ul>
-                    <li><strong>Email Protocols:</strong> Remember the difference: <strong>SMTP</strong> (Simple Mail Transfer Protocol) is for **sending** emails. <strong>IMAP</strong> (Internet Message Access Protocol) is for **retrieving** emails from a server.</li>
+                    <li><strong>Email Protocols:</strong> Remember the difference: <strong>SMTP</strong> (Simple Mail Transfer Protocol) is for <strong>sending</strong> emails. <strong>IMAP</strong> (Internet Message Access Protocol) is for <strong>retrieving</strong> emails from a server.</li>
                     <li><strong>Celery Task Design for Parallelism:</strong> For tasks that can be broken down (like sending 1000 emails), it is far more efficient to create many small, independent tasks (e.g., 1000 tasks, one for each email) than one large task that loops internally. This allows Celery's workers to process the tasks in parallel, significantly reducing the total execution time.</li>
                     <li><strong>Reverse Proxy Roles:</strong> A reverse proxy sits in front of web servers and forwards client requests. Its key roles include: <strong>Load Balancing</strong> (distributing traffic), <strong>Caching</strong> (storing common responses), and <strong>SSL Termination</strong> (handling HTTPS encryption/decryption).</li>
                     <li><strong>Pub/Sub (Publish/Subscribe) Pattern:</strong> A messaging pattern where senders (publishers) do not send messages directly to specific receivers (subscribers). Instead, they publish messages to channels or "topics," and any subscribers to that topic will receive the message. This decouples the components of a system.</li>
