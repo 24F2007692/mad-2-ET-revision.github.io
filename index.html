@@ -291,6 +291,8 @@ const routes = [
                 
                 <h3 class="sub-heading">Task Queues (Celery) & Message Brokers (Redis)</h3>
                 <ul>
+                    <li>Celery itself is just the task manager, but it needs a message broker to send tasks between producer (your app) and worker (Celery workers).</li>
+                    <li>Redis (or RabbitMQ, etc.) is often used as that broker.</li>
                     <li><strong>Task Queue:</strong> Offloads long-running tasks (like sending emails or processing data) to background "worker" processes, preventing the main application from blocking.</li>
                     <li><strong>Message Broker:</strong> An intermediary that enables different services to communicate asynchronously. It decouples the sender (producer) from the receiver (consumer). Redis is often used as a fast, in-memory message broker.</li>
                 </ul>
@@ -373,6 +375,44 @@ const routes = [
                     <li>An attack that tricks an authenticated user into submitting a malicious request to a web application they are logged into.</li>
                     <li><strong>Mitigation:</strong> Use anti-CSRF tokens. The server sends a unique, unpredictable token with the form, which must be sent back with the request to be considered valid.</li>
                 </ul>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Case</th>
+                                <th>Default (Browser)</th>
+                                <th>With Server Headers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Same-Origin</td>
+                                <td>✅ Allowed</td>
+                                <td>✅ Allowed</td>
+                            </tr>
+                            <tr>
+                                <td>Cross-Origin</td>
+                                <td>❌ Blocked(Hard coded in browser)</td>
+                                <td>✅ Allowed if <code>Access-Control-Allow-Origin</code> set</td>
+                            </tr>
+                             <tr>
+                                <td>Extra Methods (PUT/DELETE)</td>
+                                <td>❌ Blocked</td>
+                                <td>✅ Allowed with <code>Access-Control-Allow-Methods</code></td>
+                            </tr>
+                             <tr>
+                                <td>Custom Headers (Auth etc.)</td>
+                                <td>❌ Blocked</td>
+                                <td>✅ Allowed with <code>Access-Control-Allow-Headers</code></td>
+                            </tr>
+                             <tr>
+                                <td>Cookies / Tokens</td>
+                                <td>❌ Blocked</td>
+                                <td>✅ Allowed with <code>Access-Control-Allow-Credentials</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <h3 class="sub-heading">XSS (Cross-Site Scripting)</h3>
                 <ul>
                     <li>An attack where malicious scripts are injected into otherwise trusted websites.</li>
